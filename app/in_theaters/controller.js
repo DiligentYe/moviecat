@@ -4,7 +4,7 @@
     angular.module('moviecat.in_theaters', ['ngRoute', 'moviecat.services.http'])
 
     .config(['$routeProvider', function($routeProvider) {
-        $routeProvider.when('/in_theaters', {
+        $routeProvider.when('/in_theaters/:page', {
             templateUrl: 'in_theaters/view.html',
             controller: 'InTheatersController'
         });
@@ -13,30 +13,52 @@
     .controller('InTheatersController', [
         '$scope',
         '$routeParams',
+        '$route',
         'HttpService',
-        function($scope, $routeParams, HttpService) {
+        function($scope, $routeParams, $route, HttpService) {
             // 暴露数据
             // 是否加在完成
             $scope.loading = true;
             $scope.subjects = [];
+            $scope.title = '';
             // 总个数
             $scope.totalCount = 0;
 
+            // 分页相关数据
+            var count = 2; // 每页显示的最大信息条数
+            $scope.totalPages = 0; // 记录总页数
+            $scope.currentPage = parseInt($routeParams.page); // 获取当前所在页
+
+            var start = ($scope.currentPage - 1) * count; // 计算纪录起始位置
+
+
+
+
             // 使用自定义http服务请求数据
             var url = 'http://api.douban.com/v2/movie/in_theaters';
-            HttpService.jsonp(url, { count: 10 }, function(data) {
+            HttpService.jsonp(url, { count: count, start: start }, function(data) {
 
                 // 因为subjects是通过第三方库更新的，
                 // 所以需要用$apply通知NG同步数据
                 // $apply中执行的函数，会通知NG更新模型和视图
                 $scope.$apply(function() {
                     $scope.subjects = data.subjects;
-                    $scope.total = data.total;
+                    $scope.totalCount = data.total;
+                    $scope.totalPages = Math.ceil($scope.totalCount / count);
                     $scope.loading = false;
+                    $scope.title = data.title;
                 });
             });
 
             // 暴露方法
+            // 控制当前页
+            $scope.goPage = function(page) {
+                // 如果当前页不是第一页也不是做后一页，设置当前页为page
+                if (page > 0 && page <= $scope.totalPages) {
+
+                    $route.updateParams({ page: page });
+                }
+            };
         }
     ]);
 

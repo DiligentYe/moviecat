@@ -1,4 +1,4 @@
-<h1 class="page-header">正在热映</h1>
+<h1 class="page-header">{{title}}</h1>
 <div class="list-group">
     <a ng-repeat="item in subjects" href="#" class="list-group-item">
         <span class="badge">{{item.rating.average}}</span>
@@ -16,11 +16,19 @@
         </div>
     </a>
 </div>
-<p>电影记录：共{{totalCount}}条</p>
 <div id="mask" style="position: fixed;top: 0;bottom: 0;left: 0;right: 0;padding-top: 100px;background-color: rgba(0, 0, 0, 0.3);z-index: 1000;" ng-if="loading">
     <div class="spinner">
         <div class="bounce1"></div>
         <div class="bounce2"></div>
         <div class="bounce3"></div>
     </div>
+</div>
+<div ng-if="!loading">
+    <p>电影记录：共{{totalCount}}条，第{{currentPage}}／{{totalPages}}页</p>
+    <nav>
+        <ul class="pager">
+            <li ng-class="{disabled: currentPage<=1}" ng-click="goPage(currentPage-1)"><a>Previous</a></li>
+            <li ng-class="{disabled: currentPage>=totalPages}" ng-click=" goPage(currentPage+1) "><a>Next</a></li>
+        </ul>
+    </nav>
 </div>
