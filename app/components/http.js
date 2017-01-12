@@ -32,7 +32,6 @@
 
                     // 挂载回调函数
                     scriptElement.src = url;
-                    console.log(url);
 
                     // 将标签该在到页面上
                     $document[0].body.appendChild(scriptElement);
