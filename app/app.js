@@ -12,6 +12,14 @@ angular.module('moviecat', [
     .config(['$routeProvider', function($routeProvider) {
         $routeProvider.otherwise({ redirectTo: '/in_theaters/1' });
     }])
+    // 定义一些常量
+    .constant('AppConfig', {
+        // 每页最大电影展示数目
+        pageSize: 10,
+        // api地址
+        listAddress: 'http://api.douban.com/v2/movie/',
+        detailAddress: 'http://api.douban.com/v2/movie/subject/'
+    })
     // 搜索栏控制器
     .controller('SearchController', [
         '$scope',

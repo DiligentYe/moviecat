@@ -17,11 +17,12 @@
             '$scope',
             '$routeParams',
             'HttpService',
-            function($scope, $routeParams, HttpService) {
+            'AppConfig',
+            function($scope, $routeParams, HttpService, AppConfig) {
                 $scope.loading = true;
                 $scope.movie = null;
 
-                var url = 'http://api.douban.com/v2/movie/subject/' + $routeParams.id;
+                var url = AppConfig.detailAddress + $routeParams.id;
                 HttpService.jsonp(url, {}, function(data) {
                     $scope.movie = data;
                     $scope.loading = false;

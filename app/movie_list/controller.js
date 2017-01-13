@@ -15,7 +15,9 @@
         '$routeParams',
         '$route',
         'HttpService',
-        function($scope, $routeParams, $route, HttpService) {
+        'AppConfig',
+
+        function($scope, $routeParams, $route, HttpService, AppConfig) {
             // 暴露数据
             // 是否加在完成
             $scope.loading = true;
@@ -25,7 +27,7 @@
             $scope.totalCount = 0;
 
             // 分页相关数据
-            var count = 2; // 每页显示的最大信息条数
+            var count = AppConfig.pageSize; // 每页显示的最大信息条数
             $scope.totalPages = 0; // 记录总页数
             $scope.currentPage = parseInt($routeParams.page); // 获取当前所在页
 
@@ -35,7 +37,7 @@
 
 
             // 使用自定义http服务请求数据
-            var url = 'http://api.douban.com/v2/movie/' + $routeParams.category;
+            var url = AppConfig.listAddress + $routeParams.category;
             HttpService.jsonp(url, { count: count, start: start, q: $routeParams.q }, function(data) {
 
                 // 因为subjects是通过第三方库更新的，
