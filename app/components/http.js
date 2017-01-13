@@ -18,7 +18,13 @@
                     var suffix = Math.random().toString().replace('.', '');
                     var cbname = 'my_jsonp_' + suffix;
 
-                    $window[cbname] = callback;
+                    $window[cbname] = function(data) {
+                        // 设置回调函数
+                        callback(data);
+                        // 回调函数执行完之后自动清除，
+                        // 防止页面请求jsonp script标签无限增长
+                        $document[0].body.removeChild(scriptElement);
+                    };
 
                     // 处理链接参数部分
                     url += url.indexOf('?') == -1 ? '?' : '&'
@@ -32,6 +38,8 @@
 
                     // 挂载回调函数
                     scriptElement.src = url;
+
+
 
                     // 将标签该在到页面上
                     $document[0].body.appendChild(scriptElement);
