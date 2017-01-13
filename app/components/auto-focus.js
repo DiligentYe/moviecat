@@ -3,13 +3,24 @@
         .directive('autoFocus', [
             '$location',
             function($location) {
+                var path = $location.path();
+                if (!path) {
+                    path = '/in_theaters/1';
+                }
                 return {
                     restrict: 'A',
                     link: function($scope, element, attribute) {
                         // 刚加在页面时，焦点选定问题
-                        var path = $location.path().split('/')[1];
-                        var aLink = element.children().attr('href').split('/')[1];
-                        if (path == aLink) {
+                        // var path = $location.path().split('/')[1];
+                        // var aLink = element.children().attr('href').split('/')[1];
+
+                        // 使用正则表达是匹配字符
+                        // #/in_theaters/1
+                        var aLink = element.children().attr('href');
+                        aLink = aLink.replace(/#\/(\w+)\/\d+/, '$1').replace(/(\w+)\s*/, '$1');
+                        // path = path.replace(/\/(.+?)\/\d+/, '$1')
+
+                        if (path.match(aLink)) {
                             element.addClass('active');
                         }
 
@@ -19,7 +30,6 @@
                             element.parent().children().removeClass('active');
                             element.addClass('active');
                         })
-
                     }
                 }
             }
