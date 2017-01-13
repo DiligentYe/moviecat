@@ -1,5 +1,9 @@
 (function(angular) {
-    angular.module('moviecat.movie_detail', ['ngRoute', 'moviecat.services.http'])
+    angular.module('moviecat.movie_detail', [
+            'ngRoute',
+            'moviecat.services.http',
+            'moviecat.directives.loading'
+        ])
         .config([
             '$routeProvider',
             function($routeProvider) {
@@ -14,10 +18,13 @@
             '$routeParams',
             'HttpService',
             function($scope, $routeParams, HttpService) {
+                $scope.loading = true;
                 $scope.movie = null;
+
                 var url = 'http://api.douban.com/v2/movie/subject/' + $routeParams.id;
                 HttpService.jsonp(url, {}, function(data) {
                     $scope.movie = data;
+                    $scope.loading = false;
                     $scope.$apply();
                 })
             }
