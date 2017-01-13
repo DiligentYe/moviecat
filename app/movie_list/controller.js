@@ -25,7 +25,7 @@
             $scope.totalCount = 0;
 
             // 分页相关数据
-            var count = 10; // 每页显示的最大信息条数
+            var count = 2; // 每页显示的最大信息条数
             $scope.totalPages = 0; // 记录总页数
             $scope.currentPage = parseInt($routeParams.page); // 获取当前所在页
 
