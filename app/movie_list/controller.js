@@ -36,7 +36,7 @@
 
             // 使用自定义http服务请求数据
             var url = 'http://api.douban.com/v2/movie/' + $routeParams.category;
-            HttpService.jsonp(url, { count: count, start: start }, function(data) {
+            HttpService.jsonp(url, { count: count, start: start, q: $routeParams.q }, function(data) {
 
                 // 因为subjects是通过第三方库更新的，
                 // 所以需要用$apply通知NG同步数据

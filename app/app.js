@@ -9,14 +9,29 @@ angular.module('moviecat', [
     .config(['$routeProvider', function($routeProvider) {
         $routeProvider.otherwise({ redirectTo: '/in_theaters/1' });
     }])
-    .controller('NavController', [
+    // 搜索栏控制器
+    .controller('SearchController', [
         '$scope',
-        '$location',
-        function($scope, $location) {
-            $scope.$location = $location;
-            $scope.type = '';
-            $scope.$watch('$location.path()', function(now) {
-                $scope.type = now.split('/')[1];
-            });
+        '$route',
+        function($scope, $route) {
+            // 接收搜索框中的文本
+            $scope.input = '';
+
+            // 提交时执行的方法
+            $scope.search = function() {
+                $route.updateParams({ category: 'search', page: 1, q: $scope.input });
+            }
         }
     ]);
+// 导航栏控制器
+// .controller('NavController', [
+//     '$scope',
+//     '$location',
+//     function($scope, $location) {
+//         $scope.$location = $location;
+//         $scope.type = '';
+//         $scope.$watch('$location.path()', function(now) {
+//             $scope.type = now.split('/')[1];
+//         });
+//     }
+// ]);

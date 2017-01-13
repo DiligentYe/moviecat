@@ -32,14 +32,13 @@
                         url += key + '=' + params[key] + '&';
                     }
                     url += 'callback=' + cbname;
+                    console.log(url);
 
                     // 创建一个script标签
                     var scriptElement = $document[0].createElement('script');
 
                     // 挂载回调函数
                     scriptElement.src = url;
-
-
 
                     // 将标签该在到页面上
                     $document[0].body.appendChild(scriptElement);
