@@ -18,14 +18,14 @@
                         // 将$location挂在$scope上，用于监视
                         $scope.$location = $location;
                         $scope.$watch('$location.path()', function(now) {
-                            console.log(now);
+                            // console.log(now);
                             var aLink = element.children().attr('href');
                             aLink = aLink.replace(/#\/(\w+)\/\d+/, '$1').replace(/\s*(\w+)\s*/, '$1');
-                            console.log(aLink);
+                            // console.log(aLink);
                             if (now.match(aLink)) {
                                 element.parent().children().removeClass('active');
                                 element.addClass('active');
-                                console.log('ok');
+                                // console.log('ok');
                             }
                         })
 
